@@ -1,10 +1,11 @@
 <jsp:include page="WebFragment/header.jsp"></jsp:include>
+    <jsp:include page="WebFragment/navbar.jsp"></jsp:include>
 <jsp:include page="WebFragment/PopUpSignInRegister.jsp"></jsp:include>
 <!-- Breadcrumb Start -->
         <div class="breadcrumb-wrap">
             <div class="container">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="HomePage.jsp">Home</a></li>
                     <li class="breadcrumb-item active">Contact</li>
                 </ul>
             </div>

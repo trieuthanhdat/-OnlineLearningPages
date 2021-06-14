@@ -71,13 +71,13 @@
         <div class="row">
           <div class="col-md-6 copyright">
             <p>
-              Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>.
-              All Rights Reserved
+              Inspired by  <a href="https://htmlcodex.com">HTML Codex</a>.
+            and "Proximet" by<a href="http://www.anarieldesign.com/"> Anariel Design</a>. All rights reserved.
             </p>
           </div>
 
           <div class="col-md-6 template-by">
-            <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+            <p>Template By <a href="#">Group 6 team</a></p>
           </div>
         </div>
       </div>
@@ -118,8 +118,39 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+ <!-- Template Javascript -->
+    <script src="assets/js/mainHover.js"></script>
+    <!-- Scripts ==================================================
+================================================== -->
+   
+    <!-- Main js files -->
+    <script src="assets/js/screen.js" type="text/javascript"></script>
+    <!-- Tooltip -->
+    <script
+      src="assets/js/poshytip-1.0/src/jquery.poshytip.min.js"
+      type="text/javascript"
+    ></script>
+    <!-- Tabs -->
+    <script src="assets/js/tabs.js" type="text/javascript"></script>
+    <!-- Tweets -->
+    <script src="assets/js/jquery.tweetable.js" type="text/javascript"></script>
+    <!-- Include prettyPhoto -->
+    <script src="assets/js/jquery.prettyPhoto.js" type="text/javascript"></script>
+    <!-- Include Superfish -->
+    <script src="assets/js/superfish.js" type="text/javascript"></script>
+    <script src="assets/js/hoverIntent.js" type="text/javascript"></script>
+    <!-- Flexslider -->
+    <script src="assets/js/jquery.flexslider-min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="assets/js/modernizr.custom.29473.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/slick/slick.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="assets/js/mainHover.js"></script>
+       <!-- Slider Javascript -->
+    <script src="assets/js/sliderScript.js"></script>
   </body>
 </html>

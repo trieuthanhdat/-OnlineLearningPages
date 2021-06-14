@@ -1,9 +1,7 @@
 <jsp:include page="WebFragment/header.jsp"></jsp:include>
-    
-    
-    
+<jsp:include page="WebFragment/navbar.jsp"></jsp:include>
 <jsp:include page="WebFragment/PopUpSignInRegister.jsp"></jsp:include>
-    
+
 
     <!-- Start Slider Area -->
     <div class="slider-area">
