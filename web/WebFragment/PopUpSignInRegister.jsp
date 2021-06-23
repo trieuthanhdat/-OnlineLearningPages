@@ -4,7 +4,7 @@
     Author     : ADMIN
 --%>
 
-    <div class="overlay"></div>
+<div class="overlay"></div>
     <div class="main-popup">
       <div class="popup-header">
         <div id="popup-close-button"><a href="#"></a></div>

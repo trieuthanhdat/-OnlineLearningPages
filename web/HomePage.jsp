@@ -1,7 +1,7 @@
 
 <jsp:include page="WebFragment/header.jsp"></jsp:include>
 <jsp:include page="WebFragment/navbar.jsp"></jsp:include>
-    <!-- Main Slider Start -->
+   <!-- Main Slider Start -->
     <div class="header">
       <div class="container-fluid">
         <div class="row">
@@ -196,43 +196,154 @@
     </div>
     <!-- Category News End-->
 
-    <!-- Main News Start-->
-    <div class="main-news">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <!-- a row contains subjects -->
-            <div class="row">
-              <!-- place subject here -->
-              <div class="col-md-3 p-1 ">
-                <div class="card " style="width: 100%;">
-                  <img
-                    class="card-img-top"
-                    src="assets/img/blog_01.jpg"
-                    alt="Card image cap"
-                    style="width: 100%; height: 150px"
-                  />
-                  <div class="card-body">
-                    <h5 class="card-title">Subject title</h5>
-                    <p class="card-text" style="max-height: 63px; overflow: hidden;">
-                      Some quick example text to build on the card title and
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Maiores, laborum voluptate nisi sequi praesentium aliquam
-                      accusantium esse laudantium error libero necessitatibus
-                      cupiditate, at temporibus? Id sed aperiam soluta nulla
-                      excepturi? make up the bulk of the card's content.
-                    </p>
-                    <a href="#" class="btn btn-primary">View</a>
+    <!-- =======  Courses Section ======= -->
+    <section id="popular-courses" class="courses">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Courses</h2>
+        </div>
+
+        <div class="row" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="course-item">
+              <img src="assets/img/course-1.jpg" class="img-fluid" alt="..." />
+              <div class="course-content">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <h4>Web Development</h4>
+                  <p class="price">$169</p>
+                </div>
+
+                <h3><a href="CourseDetail.jsp">Website Design</a></h3>
+                <p>
+                  Et architecto provident deleniti facere repellat nobis iste.
+                  Id facere quia quae dolores dolorem tempore.
+                </p>
+                <div
+                  class="
+                    trainer
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                  "
+                >
+                  <div class="trainer-profile d-flex align-items-center">
+                    <img
+                      src="assets/img/trainers/trainer-1.jpg"
+                      class="img-fluid"
+                      alt=""
+                    />
+                    <span>Antonio</span>
+                  </div>
+                  <div class="trainer-rank d-flex align-items-center">
+                    <i class="bx bx-user"></i>&nbsp;50 &nbsp;&nbsp;
+                    <i class="bx bx-heart"></i>&nbsp;65
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
+          <!-- End Course Item-->
+
+          <div
+            class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
+          >
+            <div class="course-item">
+              <img src="assets/img/course-2.jpg" class="img-fluid" alt="..." />
+              <div class="course-content">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <!-- Category -->
+                  <h4>Marketing</h4>
+                  <p class="price">$250</p>
+                </div>
+
+                <h3>
+                  <a href="CourseDetail.jsp">Search Engine Optimization</a>
+                </h3>
+                <p>
+                  Et architecto provident deleniti facere repellat nobis iste.
+                  Id facere quia quae dolores dolorem tempore.
+                </p>
+                <div
+                  class="
+                    trainer
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                  "
+                >
+                  <div class="trainer-profile d-flex align-items-center">
+                    <img
+                      src="assets/img/trainers/trainer-2.jpg"
+                      class="img-fluid"
+                      alt=""
+                    />
+                    <span>Lana</span>
+                  </div>
+                  <div class="trainer-rank d-flex align-items-center">
+                    <i class="bx bx-user"></i>&nbsp;35 &nbsp;&nbsp;
+                    <i class="bx bx-heart"></i>&nbsp;42
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Course Item-->
+
+          <div
+            class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0"
+          >
+            <div class="course-item">
+              <img src="assets/img/course-3.jpg" class="img-fluid" alt="..." />
+              <div class="course-content">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <h4>Content</h4>
+                  <p class="price">$180</p>
+                </div>
+
+                <h3><a href="CourseDetail.jsp">Copywriting</a></h3>
+                <p>
+                  Et architecto provident deleniti facere repellat nobis iste.
+                  Id facere quia quae dolores dolorem tempore.lorem Lorem ipsum
+                  dolor sit amet consectetur adipisicing elit. Consequuntur
+                  voluptates reiciendis architecto voluptatibus deleniti iure
+                  ipsam dignissimos dolorum unde. Modi id quibusdam, qui et
+                  numquam blanditiis! Sapiente consequatur maxime nobis.
+                </p>
+                <div
+                  class="
+                    trainer
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                  "
+                >
+                  <div class="trainer-profile d-flex align-items-center">
+                    <img
+                      src="assets/img/trainers/trainer-3.jpg"
+                      class="img-fluid"
+                      alt=""
+                    />
+                    <span>Brandon</span>
+                  </div>
+                  <div class="trainer-rank d-flex align-items-center">
+                    <i class="bx bx-user"></i>&nbsp;20 &nbsp;&nbsp;
+                    <i class="bx bx-heart"></i>&nbsp;85
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Course Item-->
         </div>
       </div>
-    </div>
-    <!-- Main News End-->
+    </section>
+    <!-- End  Courses Section -->
 
     <!-- Home Content Part - Box Two ==================================================
 ================================================== -->
@@ -255,5 +366,4 @@
       <!-- end one_sixth lastCol -->
     </div>
     <!-- end container -->
-
     <jsp:include page="WebFragment/footer.jsp"></jsp:include>

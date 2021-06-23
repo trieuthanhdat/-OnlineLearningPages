@@ -101,6 +101,37 @@
         <link rel="stylesheet" href="assets/css/colornip.min.css" />
         <!-- Modals css -->
         <link rel="stylesheet" href="assets/css/modalStyle.css" />
+        <!--Course Main CSS File -->
+        <link href="assets/css/CourseStyle.css" rel="stylesheet" />
+        <!-- Course Detail css -->
+        <link rel="stylesheet" href="assets/css/courseDetailStyle.css">
+        <!-- Vendor CSS Files -->
+        <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet" />
+        <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+        <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+        <link
+            href="assets/vendor/owl.carousel/assets/owl.carousel.min.css"
+            rel="stylesheet"
+            />
+        <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
+        <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+
+        <link
+            id="theme"
+            rel="stylesheet"
+            href="assets/css/theme-colors/theme-default.css"
+            />
+
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
+            />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            rel="stylesheet"
+            />
+        <link href="lib/slick/slick.css" rel="stylesheet" />
+        <link href="lib/slick/slick-theme.css" rel="stylesheet" />
         <link
             id="theme"
             rel="stylesheet"
@@ -155,7 +186,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4">
                         <div class="b-logo">
-                            <a href="index.html">
+                            <a href="welcomePage.jsp">
                                 <img src="assets/img/Logo/Group6LOGO.png" alt="Logo" />
                             </a>
                         </div>
@@ -172,4 +203,4 @@
         </div>
         <!-- Brand End -->
 
-        
+

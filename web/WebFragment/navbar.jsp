@@ -62,7 +62,7 @@
                                 <div class="dropdown-content">
                                     <a href="#" class="list-item" id="sign-in">Login</a>
                                     <a href="#" class="list-item">Profile</a>
-                                    <a href="#" class="list-item">My Courses</a>
+                                    <a href="MyCourse.jsp" class="list-item">My Courses</a>
                                     <a href="#" class="list-item">Log out</a>
                                 </div>
                             </div>
