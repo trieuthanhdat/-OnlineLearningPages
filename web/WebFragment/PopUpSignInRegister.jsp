@@ -15,16 +15,16 @@
       </div>
       <!--.popup-header-->
       <div class="popup-content">
-        <form action="#" class="sign-in-form">
+        <form action="Login" class="sign-in-form">
           <label for="email">Email:</label>
-          <input type="text" id="email" />
+          <input type="text" id="email" name="txtEmail" value=""/>
           <label for="password">Password:</label>
-          <input type="password" id="password" />
+          <input type="password" id="password" name="txtPassword" value=""/>
           <p class="check-mark">
             <input type="checkbox" id="remember-me" />
             <label for="remember-me">Remember me</label>
           </p>
-          <input type="submit" id="submit" value="Submit" />
+          <input type="submit" id="submit" value="Submit"/>
         </form>
 
         <form action="#" class="register-form">
