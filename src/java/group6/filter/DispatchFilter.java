@@ -112,7 +112,7 @@ public class DispatchFilter implements Filter {
         
         try {
             //file trong thư mục js, css, img không cần đi qua filter
-            if (uri.contains("/js") || uri.contains("/css") || uri.contains("/img")) {
+            if (uri.contains("/assets/") || uri.contains("/lib/")) {
                 chain.doFilter(request,response);
                 return;
             }   
