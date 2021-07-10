@@ -5,8 +5,21 @@
  */
 package Servlet;
 
+import QuizNQuestion.QuestionDAO;
+import QuizNQuestion.QuestionDTO;
+import QuizNQuestion.QuizDAO;
+import QuizNQuestion.QuizDTO;
+import QuizNQuestion.QuizOptionDAO;
+import QuizNQuestion.QuizQuestionDAO;
+import QuizNQuestion.QuizQuestionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +33,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "MakeQuizServlet", urlPatterns = {"/MakeQuizServlet"})
 public class MakeQuizServlet extends HttpServlet {
 
+    private final static String QUIZ_LIST_PAGE = "QuizList.jsp";
+    private final static String ERROR = "error.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,8 +48,54 @@ public class MakeQuizServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
+        PrintWriter out = response.getWriter();
+
+        String url = ERROR;
+
+        int subjectID = Integer.parseInt(request.getParameter("subjectID"));
+        String name = request.getParameter("name");
+        int numOfQuestions = Integer.parseInt(request.getParameter("numOfQuestions"));
+        Time duration = Time.valueOf(request.getParameter("duration"));
+        double passRate = Double.parseDouble(request.getParameter("passRate"));
+        String level = request.getParameter("level");
+        int lessonID = Integer.parseInt(request.getParameter("lessonID"));
+
+        try {
+            QuizDTO quiz = new QuizDTO(0, subjectID, name, numOfQuestions, duration, passRate, level, false);
+
+            QuizDAO quizDAO = new QuizDAO();
+            boolean result1 = quizDAO.createQuiz(quiz);// tạo quiz
+            int quizID = quizDAO.getQuizListSize(); // query lại để lấy quizID
+
+            if (result1) {//tạo thành công copy question
+                QuestionDAO questionDAO = new QuestionDAO(); //lấy question thuộc lesson đó ra
+                questionDAO.importQuestion(lessonID);
+                List<QuestionDTO> question = questionDAO.getQuestion();
+                
+                if (question.size() >= numOfQuestions) { // Nếu số lượng câu hỏi khớp với lại số lượng yêu cầu
+                    QuizQuestionDAO quizQuestionDAO = new QuizQuestionDAO(); //truyền vào quiz để phân loại và copy
+                    quizQuestionDAO.randomQuestion(question, level, numOfQuestions, quizID);
+                    boolean result2 = quizQuestionDAO.exportQuizQuestion();
+                    quizQuestionDAO.importQuizQuestion(quizID); //query lại để lấy questionNo
+                    List <QuizQuestionDTO> quizQuestion = quizQuestionDAO.getQuizQuestionList();
+                    
+                    if (result2) {// nếu câu hỏi được thêm vào thành công, lấy option theo từng câu hỏi
+                        QuizOptionDAO quizOptionDAO = new QuizOptionDAO();
+                        quizOptionDAO.getQuizOption(quizQuestion);
+                        quizOptionDAO.exportOption();
+                    }
+                    
+                } else { // thông báo ko đủ quiz trong bank 
+                    
+                }
+            }
+        } catch (NamingException ex) {
+            Logger.getLogger(MakeQuizServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MakeQuizServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            response.sendRedirect(url);
+            out.close();
         }
     }
 

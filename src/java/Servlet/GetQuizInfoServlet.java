@@ -5,31 +5,30 @@
  */
 package Servlet;
 
-import QuizNQuestion.QuizOptionDAO;
-import QuizNQuestion.QuizOptionDTO;
-import QuizNQuestion.QuizQuestionDAO;
-import QuizNQuestion.QuizQuestionDTO;
+import QuizNQuestion.QuizDAO;
+import QuizNQuestion.QuizDTO;
+import QuizNQuestion.UserAnswerDAO;
+import QuizNQuestion.UserAnswerDTO;
+import User.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "GetQuizQuestionServlet", urlPatterns = {"/GetQuizQuestionServlet"})
-public class GetQuizQuestionServlet extends HttpServlet {
-    private final static String TAKE_QUIZ = "quiz.jsp";
-    private final static String QUESTION_NOT_FOUND = "error.jsp";
+public class GetQuizInfoServlet extends HttpServlet {
+    private static final String QUIZ_PAGE = "quiz.jsp";
+    private static final String ERROR = "error.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,31 +43,32 @@ public class GetQuizQuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
-        String url = QUESTION_NOT_FOUND;
-        int QuizID = Integer.parseInt(request.getParameter("quizID"));
+        String url = ERROR;
         
         try {
-            QuizQuestionDAO dao1 = new QuizQuestionDAO();
-            dao1.importQuizQuestion(QuizID);
-            List<QuizQuestionDTO> question = dao1.getQuizQuestionList();
+            HttpSession session = request.getSession(); // Lấy thông tin người dùng và quizID
+            UserDTO user = (UserDTO) session.getAttribute("USER");
+            int quizID = Integer.parseInt(request.getParameter("quizID"));
             
-            QuizOptionDAO dao2 = new QuizOptionDAO();
-            dao2.importOption(question);
-            List<QuizOptionDTO> option = dao2.getOption();
+            QuizDAO quizDAO = new QuizDAO();
+            QuizDTO quiz = quizDAO.getQuiz(quizID);
             
-            if (question != null && option != null) {
-                request.setAttribute("QUIZ_QUESTION", question);
-                request.setAttribute("QUIZ_QUESTION_OPTION", option);
-                url = TAKE_QUIZ;
+            if (quiz != null){ // check xem quiz có tồn tại hay ko
+                request.setAttribute("QUIZ_INFO", quiz);
+                url = QUIZ_PAGE;
+                UserAnswerDAO userAns = new UserAnswerDAO();
+                UserAnswerDTO Ans = userAns.checkUserAnswerExist(quizID, user.getUserID());
+                
+                if (Ans != null) { // check xem người dùng đã làm quiz hay chưa
+                    request.setAttribute("USER_SCORE", Ans);
+                }
             }
             
         } catch (NamingException ex) {
-            Logger.getLogger(GetQuizQuestionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetQuizInfoServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(GetQuizQuestionServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetQuizInfoServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
             out.close();
         }
     }

@@ -24,7 +24,6 @@ public class QuizQuestionDAO implements Serializable {
 
     private List<QuizQuestionDTO> quizQuestion = null;
     private List<QuizQuestionDTO> newQuizQuestion = null;
-    private int n;
     private Connection con = null;
     private PreparedStatement stm = null;
     private ResultSet rs = null;
@@ -39,35 +38,6 @@ public class QuizQuestionDAO implements Serializable {
         if (con != null) {
             con.close();
         }
-    }
-
-    public QuizQuestionDAO() throws NamingException, SQLException {
-        n = count();
-    }
-
-    public int count() throws NamingException, SQLException {
-        int number = 0;
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            con = DBHelpers.makeConnection();
-            if (con != null) {
-                String sql = "SELECT * "
-                        + "FROM QuizQuestion ";
-
-                stm = con.prepareStatement(sql);
-
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    number++;
-                }
-            }
-        } finally {
-            closeConnection();
-        }
-        return number;
     }
 
     public boolean randomQuestion(List<QuestionDTO> questions, String level, int number, int quizID) {
@@ -91,7 +61,7 @@ public class QuizQuestionDAO implements Serializable {
             int hardNo = (int) (number * 0.20);
             int mediumNo = (int) (number * 0.35);
             int easyNo = number - hardNo - mediumNo;
-            
+
             copyQuestion(hard, hardNo, quizID);
             copyQuestion(medium, mediumNo, quizID);
             copyQuestion(easy, easyNo, quizID);
@@ -102,7 +72,7 @@ public class QuizQuestionDAO implements Serializable {
             int hardNo = (int) (number * 0.15);
             int mediumNo = (int) (number * 0.4);
             int easyNo = number - hardNo - mediumNo;
-            
+
             copyQuestion(hard, hardNo, quizID);
             copyQuestion(medium, mediumNo, quizID);
             copyQuestion(easy, easyNo, quizID);
@@ -113,7 +83,7 @@ public class QuizQuestionDAO implements Serializable {
             int hardNo = (int) (number * 0.1);
             int mediumNo = (int) (number * 0.35);
             int easyNo = number - hardNo - mediumNo;
-            
+
             copyQuestion(hard, hardNo, quizID);
             copyQuestion(medium, mediumNo, quizID);
             copyQuestion(easy, easyNo, quizID);
@@ -135,10 +105,10 @@ public class QuizQuestionDAO implements Serializable {
                     i--;
                     ok = false;
                 }
-                if (ok) {
-                    QuizQuestionDTO dto = new QuizQuestionDTO(0, n++, quizID, question.get(value).getQuestionID(), question.get(value).getContent(), question.get(value).getExplaination(), question.get(value).getLevel(), question.get(value).getMediaLink());
-                    newQuizQuestion.add(dto);
-                }
+            }
+            if (ok) {
+                QuizQuestionDTO dto = new QuizQuestionDTO(0, quizID, question.get(value).getQuestionID(), question.get(value).getContent(), question.get(value).getExplaination(), question.get(value).getLevel(), question.get(value).getMediaLink(), true);
+                newQuizQuestion.add(dto);
             }
         }
     }
@@ -151,20 +121,20 @@ public class QuizQuestionDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 for (int i = 0; i < newQuizQuestion.size(); i++) {
-                    String sql = "INSERT INTO QuizQuestion(questionNo, quizID, questionID, content, explanation, level, mediaLink) "
+                    String sql = "INSERT INTO QuizQuestion(quizID, questionID, content, explanation, level, mediaLink, status) "
                             + "VALUES (?,?,?,?,?,?,?) ";
 
                     stm = con.prepareStatement(sql);
-                    stm.setInt(1, newQuizQuestion.get(i).getQuestionNo());
                     stm.setInt(2, newQuizQuestion.get(i).getQuizID());
                     stm.setInt(3, newQuizQuestion.get(i).getQuestionID());
                     stm.setString(4, newQuizQuestion.get(i).getContent());
                     stm.setString(5, newQuizQuestion.get(i).getExplanation());
                     stm.setString(6, newQuizQuestion.get(i).getLevel());
                     stm.setString(7, newQuizQuestion.get(i).getMediaLink());
+                    stm.setBoolean(8, true);
 
                     row += stm.executeUpdate();
-                    
+
                     if (row == newQuizQuestion.size()) {
                         result = true;
                     } else {
@@ -177,20 +147,17 @@ public class QuizQuestionDAO implements Serializable {
         }
         return result;
     }
-    
-    public void importQuizQuestion (int quizID) throws SQLException, NamingException { // take data from database
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
+
+    public void importQuizQuestion(int quizID) throws SQLException, NamingException { // take data from database
         quizQuestion = new ArrayList();
-        int i = 1;
-        
-        try{
+
+        try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT questionNo, questionID, content, explanation, level, mediaLink "
-                            + "WHERE quizID = ? ";
-                
+                String sql = "SELECT questionNo, questionID, content, explanation, level, mediaLink, status "
+                        + " FROM QuizQuestion "
+                        + " WHERE quizID = ? ";
+
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, quizID);
                 rs = stm.executeQuery();
@@ -198,10 +165,11 @@ public class QuizQuestionDAO implements Serializable {
                     int questionNo = rs.getInt("questionNo");
                     int questionID = rs.getInt("questionID");
                     String content = rs.getString("content");
-                    String explaination = rs.getString("explanation");
+                    String explanation = rs.getString("explanation");
                     String level = rs.getString("level");
                     String mediaLink = rs.getString("mediaLink");
-                    QuizQuestionDTO dto = new QuizQuestionDTO(i++ ,questionNo, quizID, questionID, content, explaination, level, mediaLink);
+                    boolean status = rs.getBoolean("status");
+                    QuizQuestionDTO dto = new QuizQuestionDTO(questionNo, quizID, questionID, content, explanation, level, mediaLink, status);
                     quizQuestion.add(dto);
                 }
             }
@@ -210,11 +178,36 @@ public class QuizQuestionDAO implements Serializable {
         }
     }
     
-    public List<QuizQuestionDTO> getQuizQuestionList () {
+    public boolean editQuestion(QuizQuestionDTO question) throws NamingException, SQLException {
+        boolean result = false;
+        try {
+            con = DBHelpers.makeConnection();
+            
+            if (con != null) {
+                String sql = "UPDATE QuizQuestion SET content=?, explanation=?, mediaLink=?, status=?"
+                        + " WHERE questionNo=? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, question.getContent());
+                stm.setString(2, question.getExplanation());
+                stm.setString(3, question.getMediaLink());
+                stm.setBoolean(4, question.isStatus());
+                stm.setInt(5, question.getQuestionNo());
+                
+                if (stm.executeUpdate() > 0) {
+                    result = true;
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+        return result;
+    }
+
+    public List<QuizQuestionDTO> getQuizQuestionList() {
         return quizQuestion;
     }
-    
-    public QuizQuestionDTO getQuizQuestion (int number) {
+
+    public QuizQuestionDTO getQuizQuestion(int number) {
         return quizQuestion.get(number);
     }
 }

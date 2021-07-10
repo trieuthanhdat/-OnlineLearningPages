@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
 
@@ -38,9 +39,7 @@ public class QuestionDAO implements Serializable{
     }
     
     public void importQuestion (int lessonID) throws NamingException, SQLException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
+        questions = new ArrayList();
 
         try {
             con = DBHelpers.makeConnection();

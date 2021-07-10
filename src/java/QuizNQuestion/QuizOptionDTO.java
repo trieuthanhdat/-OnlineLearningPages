@@ -14,15 +14,25 @@ import java.io.Serializable;
 public class QuizOptionDTO implements Serializable{
     private int questionNo;
     private String content;
+    private String optionLetter;
     private boolean isCorrect;
 
     public QuizOptionDTO() {
     }
 
-    public QuizOptionDTO(int questionNo, String content, boolean isCorrect) {
+    public QuizOptionDTO(int questionNo, String content, String optionLetter, boolean isCorrect) {
         this.questionNo = questionNo;
         this.content = content;
+        this.optionLetter = optionLetter;
         this.isCorrect = isCorrect;
+    }
+
+    public String getOptionLetter() {
+        return optionLetter;
+    }
+
+    public void setOptionLetter(String optionLetter) {
+        this.optionLetter = optionLetter;
     }
 
     public void setQuestionNo(int questionNo) {

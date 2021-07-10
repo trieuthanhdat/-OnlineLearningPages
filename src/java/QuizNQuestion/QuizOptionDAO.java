@@ -54,8 +54,9 @@ public class QuizOptionDAO implements Serializable {
                     rs = stm.executeQuery();
                     while (rs.next()) {
                         String content = rs.getString("content");
+                        String optionLetter = rs.getString("optionLetter");
                         boolean isCorrect = rs.getBoolean("isCorrect");
-                        QuizOptionDTO dto = new QuizOptionDTO(quiz.getQuestionNo(), content, isCorrect);
+                        QuizOptionDTO dto = new QuizOptionDTO(quiz.getQuestionNo(), content, optionLetter, isCorrect);
                         newQuizOption.add(dto);
                     }
                 }
@@ -72,12 +73,13 @@ public class QuizOptionDAO implements Serializable {
             con = DBHelpers.makeConnection();
             if (con != null) {
                 for (QuizOptionDTO option : newQuizOption) {
-                    String sql = "INSERT INTO QuizQuestionOption(questionNo, content, isCorrect) "
+                    String sql = "INSERT INTO QuizQuestionOption(questionNo, optionLetter, content, isCorrect) "
                             + " VALUES(?,?,?) ";
                     stm = con.prepareStatement(sql);
                     stm.setInt(1, option.getQuestionNo());
-                    stm.setString(2, option.getContent());
-                    stm.setBoolean(3, option.isIsCorrect());
+                    stm.setString(2, option.getOptionLetter());
+                    stm.setString(3, option.getContent());
+                    stm.setBoolean(4, option.isIsCorrect());
                     row += stm.executeUpdate();
                     if (row == newQuizOption.size()) {
                         result = true;
@@ -109,8 +111,9 @@ public class QuizOptionDAO implements Serializable {
                     while (rs.next()) {
                         int questionNo = rs.getInt("questionNo");
                         String content = rs.getString("content");
+                        String optionLetter = rs.getString("optionLetter");
                         boolean isCorrect = rs.getBoolean("isCorrect");
-                        QuizOptionDTO dto = new QuizOptionDTO(questionNo, content, isCorrect);
+                        QuizOptionDTO dto = new QuizOptionDTO(questionNo, content, optionLetter, isCorrect);
                         quizOption.add(dto);
                     }
                 }

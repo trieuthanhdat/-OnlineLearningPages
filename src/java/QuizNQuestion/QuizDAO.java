@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
 
@@ -21,7 +22,7 @@ import javax.naming.NamingException;
  */
 public class QuizDAO implements Serializable{
     
-    private int n;
+    private List<QuizDTO> quiz = null;
     private Connection con = null;
     private PreparedStatement stm = null;
     private ResultSet rs = null;
@@ -38,39 +39,36 @@ public class QuizDAO implements Serializable{
             }
     }
     
-    public QuizDAO () throws NamingException, SQLException {
-        n = count();
-    }
-    
-    public int count() throws NamingException, SQLException {
-        int number = 0;
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
+    public boolean createQuiz (QuizDTO quiz) throws NamingException, SQLException {
+        boolean result = false;
         
-         try {
+        try {
             con = DBHelpers.makeConnection();
             if (con != null) {
-                String sql = "SELECT * " 
-                            +"FROM Quiz ";  
-                
+                String sql = "INSERT INTO Quiz(subjectID, name, numOfQuestions, duration, passRate, level, status) "
+                        + " VALUES(?,?,?,?,?,?,?,?) ";
                 stm = con.prepareStatement(sql);
+                stm.setInt(2, quiz.getSubjectID());
+                stm.setString(3, quiz.getName());
+                stm.setInt(4, quiz.getNumOfQuestions());
+                stm.setTime(5, quiz.getDuration());
+                stm.setDouble(6, quiz.getPassRate());
+                stm.setString(7, quiz.getLevel());
+                stm.setBoolean(8, quiz.isStatus());
                 
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    number++;
+                int row = stm.executeUpdate();
+                
+                if (row > 0) {
+                    result = true;
                 }
             }
         } finally {
-            closeConnection();
+            
         }
-        return number;
+        return result;
     }
     
     public QuizDTO getQuiz (int quizID) throws NamingException, SQLException {
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
         QuizDTO dto = null;
         
          try {
@@ -99,5 +97,37 @@ public class QuizDAO implements Serializable{
             closeConnection();
         }
         return dto;
+    }
+    
+    public int getQuizListSize () throws NamingException, SQLException {
+        quiz = new ArrayList();
+        QuizDTO dto = null;
+        
+         try {
+            con = DBHelpers.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * " 
+                            +"FROM Quiz ";  
+                
+                stm = con.prepareStatement(sql);
+                
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int quizID = rs.getInt("quizID");
+                    int subjectID = rs.getInt("subjectID");
+                    String name = rs.getString("name");
+                    int numOfQuestion = rs.getInt("numOfQuestion");
+                    Time duration = rs.getTime("duration");
+                    double passRate = rs.getDouble("passRate");
+                    String level = rs.getString("level");
+                    boolean status = rs.getBoolean("status");
+                    dto = new QuizDTO(quizID, subjectID, name, numOfQuestion, duration, passRate, level, status);
+                    quiz.add(dto);
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+         return quiz.size();
     }
 }
